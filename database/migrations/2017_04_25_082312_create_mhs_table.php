@@ -1,0 +1,48 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateMhsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::dropIfExists('mhs');
+
+        Schema::create('mhs', function (Blueprint $table) {
+            //$table->increments('id');
+            $table->string('nrp', 15);
+            $table->primary('nrp');
+            $table->string('nama');
+            $table->string('nipdosenwali', 15)->index();
+            $table->timestamps();
+            $table->foreign('nipdosenwali')
+              ->references('nip')->on('dosens')
+              ->onUpdate('cascade')
+              ->onDelete('cascade');
+        });
+
+        // Schema::create('mhs', function($table){
+        //   $table->foreign('nipdosenwali')
+        //     ->references('nip')
+        //     ->onUpdate('cascade')
+        //     ->onDelete('cascade');
+        // });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('mhs');
+    }
+}
